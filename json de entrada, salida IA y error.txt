@@ -1,0 +1,217 @@
+1. schema_entrada_consulta.json
+
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ConsultaJuridicaEntrada",
+  "type": "object",
+  "properties": {
+    "asunto": {
+      "type": "string"
+    },
+    "remitente": {
+      "type": "string",
+      "format": "email"
+    },
+    "fecha_recepcion": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "gmail_message_id": {
+      "type": "string"
+    },
+    "gmail_thread_id": {
+      "type": "string"
+    },
+    "consulta_id": {
+      "type": "string"
+    },
+    "fecha": {
+      "type": "string"
+    },
+    "nombre": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "telefono": {
+      "type": "string"
+    },
+    "area": {
+      "type": "string"
+    },
+    "asunto_consulta": {
+      "type": "string"
+    },
+    "fecha_hecho": {
+      "type": "string"
+    },
+    "urgencia": {
+      "type": "string",
+      "enum": [
+        "Sí",
+        "No"
+      ]
+    },
+    "documentacion_disponible": {
+      "type": "string",
+      "enum": [
+        "Sí",
+        "No"
+      ]
+    },
+    "descripcion": {
+      "type": "string"
+    },
+    "preferencia_contacto": {
+      "type": "string"
+    },
+    "consentimiento": {
+      "type": "string",
+      "enum": [
+        "Sí",
+        "No"
+      ]
+    },
+    "cuerpo_original": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "consulta_id",
+    "nombre",
+    "email",
+    "area",
+    "descripcion",
+    "consentimiento"
+  ]
+}
+
+
+2. schema_salida_ia.json
+
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AnalisisIAConsultaJuridica",
+  "type": "object",
+  "properties": {
+    "subcategoria": {
+      "type": "string"
+    },
+    "prioridad": {
+      "type": "string",
+      "enum": [
+        "Baja",
+        "Media",
+        "Alta",
+        "Urgente"
+      ]
+    },
+    "resumen": {
+      "type": "string"
+    },
+    "datos_faltantes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "requiere_revision_abogado": {
+      "type": "boolean"
+    },
+    "borrador_respuesta": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "subcategoria",
+    "prioridad",
+    "resumen",
+    "datos_faltantes",
+    "requiere_revision_abogado",
+    "borrador_respuesta"
+  ]
+}
+
+3. schema_error_workflow.json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ErrorWorkflow",
+  "type": "object",
+  "properties": {
+    "id_error": {
+      "type": "string"
+    },
+    "id_ejecucion": {
+      "type": "string"
+    },
+    "execution_id": {
+      "type": "string"
+    },
+    "execution_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "retry_of": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "mensaje": {
+      "type": "string"
+    },
+    "stack": {
+      "type": "string"
+    },
+    "ultimo_nodo": {
+      "type": "string"
+    },
+    "modo": {
+      "type": "string"
+    },
+    "workflow_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "workflow_nombre": {
+      "type": "string"
+    },
+    "fecha": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "severidad": {
+      "type": "string",
+      "enum": [
+        "Baja",
+        "Media",
+        "Alta",
+        "Crítica"
+      ]
+    },
+    "estado": {
+      "type": "string"
+    },
+    "reintentos": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "required": [
+    "id_error",
+    "id_ejecucion",
+    "execution_id",
+    "mensaje",
+    "ultimo_nodo",
+    "modo",
+    "workflow_nombre",
+    "fecha",
+    "severidad",
+    "estado",
+    "reintentos"
+  ]
+}

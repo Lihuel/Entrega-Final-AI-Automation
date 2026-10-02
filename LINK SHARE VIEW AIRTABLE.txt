@@ -1,0 +1,12 @@
+https://airtable.com/app0pjup2fouAxCF4/shr7i8rRuJCtRvOEO      -------TABLA CONSULTA
+
+https://airtable.com/app0pjup2fouAxCF4/shrvzMofo6Z0NI7Lx      -------TABLA CLIENTES
+
+https://airtable.com/app0pjup2fouAxCF4/shrTvaFoZfqZQl4CK      -------TABLA EJECUIONES
+
+https://airtable.com/app0pjup2fouAxCF4/shrMFth12OWg7illg      -------TABLA ERRORES
+
+https://airtable.com/app0pjup2fouAxCF4/shrcb2qOjYKyuJBCv     --------DASHBOARD
+
+
+
