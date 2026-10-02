@@ -1,0 +1,647 @@
+{
+  "name": "Dashboard — KPIs",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        0
+      ],
+      "id": "3ba79710-505d-4c31-970a-10cf596c2f82",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "app0pjup2fouAxCF4",
+          "mode": "list",
+          "cachedResultName": "Gestión Consultas Jurídicas",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblOhH1jTi8PKKYl5",
+          "mode": "list",
+          "cachedResultName": "Consultas",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4/tblOhH1jTi8PKKYl5"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        -128,
+        -192
+      ],
+      "id": "7a7bfd9e-874f-43a8-9df1-35aae6ac9795",
+      "name": "Traer Consultas",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "91KRqTxZuSzjk04e",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "app0pjup2fouAxCF4",
+          "mode": "list",
+          "cachedResultName": "Gestión Consultas Jurídicas",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblq2F1oaHwn8R0PB",
+          "mode": "list",
+          "cachedResultName": "Errores",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4/tblq2F1oaHwn8R0PB"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        -112,
+        160
+      ],
+      "id": "50592ee5-5907-425e-bfce-e20bf56405d2",
+      "name": "Traer Errores",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "91KRqTxZuSzjk04e",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "app0pjup2fouAxCF4",
+          "mode": "list",
+          "cachedResultName": "Gestión Consultas Jurídicas",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbluH1Bvfx2mlGN6G",
+          "mode": "list",
+          "cachedResultName": "Ejecuciones",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4/tbluH1Bvfx2mlGN6G"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        -128,
+        -16
+      ],
+      "id": "a37e023c-cb38-4622-abeb-16f15efa410d",
+      "name": "Traer Ejecuciones",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "91KRqTxZuSzjk04e",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const ejecuciones = $('Traer Ejecuciones').all();\nconst errores = $('Traer Errores').all();\n\nconst tasaError = ejecuciones.length > 0\n  ? (errores.length / ejecuciones.length) * 100\n  : 0;\n\nreturn [{\n  json: {\n    total_ejecuciones: ejecuciones.length,\n    total_errores: errores.length,\n    tasa_error: Number(tasaError.toFixed(1))\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        48
+      ],
+      "id": "f2c5272d-0bf7-4f4c-94ac-03125d6e8f2f",
+      "name": "Calculos KPI Errores"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "app0pjup2fouAxCF4",
+          "mode": "list",
+          "cachedResultName": "Gestión Consultas Jurídicas",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl6vTQGAbQ9yzNdv",
+          "mode": "list",
+          "cachedResultName": "Dashborad",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4/tbl6vTQGAbQ9yzNdv"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "KPI": "={{ $json.fields.KPI }}",
+            "VALOR": "={{ $('Calculos KPI Tasa y Volumen').item.json.tasa_aprobacion }}%"
+          },
+          "matchingColumns": [
+            "KPI"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "KPI",
+              "displayName": "KPI",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "VALOR",
+              "displayName": "VALOR",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        560,
+        -192
+      ],
+      "id": "7bf141aa-e4df-4763-9936-d222b947da58",
+      "name": "Airtable — Actualizar KPI Tasa",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "91KRqTxZuSzjk04e",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const consultas = $input.all();\n\nconst totalIngresadas = consultas.length;\n\nconst aprobadas = consultas.filter(item =>\n  item.json.fields?.[\"Aprobación\"] === \"Aprobado\"\n).length;\n\nconst rechazadas = consultas.filter(item =>\n  item.json.fields?.[\"Aprobación\"] === \"Rechazado\"\n).length;\n\nconst decididas = aprobadas + rechazadas;\n\n// 1. Tasa de aprobación\nconst tasaAprobacion = decididas > 0\n  ? (aprobadas / decididas) * 100\n  : 0;\n\n// 2. Volumen de salida\nconst volumenSalida = totalIngresadas > 0\n  ? (aprobadas / totalIngresadas) * 100\n  : 0;\n\nreturn [{\n  json: {\n    total_ingresadas: totalIngresadas,\n    aprobadas_humano: aprobadas,\n    rechazadas_humano: rechazadas,\n    tasa_aprobacion: Number(tasaAprobacion.toFixed(1)),\n    volumen_salida: Number(volumenSalida.toFixed(1))\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        128,
+        -192
+      ],
+      "id": "c0b38184-39f5-4feb-83e6-676cca62be23",
+      "name": "Calculos KPI Tasa y Volumen"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "app0pjup2fouAxCF4",
+          "mode": "list",
+          "cachedResultName": "Gestión Consultas Jurídicas",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl6vTQGAbQ9yzNdv",
+          "mode": "list",
+          "cachedResultName": "Dashborad",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4/tbl6vTQGAbQ9yzNdv"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "KPI": "={{ $json.fields.KPI }}",
+            "VALOR": "={{ $('Calculos KPI Tasa y Volumen').item.json.volumen_salida }}%"
+          },
+          "matchingColumns": [
+            "KPI"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "KPI",
+              "displayName": "KPI",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "VALOR",
+              "displayName": "VALOR",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        976,
+        -192
+      ],
+      "id": "1d3a57a0-aee8-4677-81c5-828cc919a289",
+      "name": "Airtable — Actualizar Volumen",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "91KRqTxZuSzjk04e",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "app0pjup2fouAxCF4",
+          "mode": "list",
+          "cachedResultName": "Gestión Consultas Jurídicas",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl6vTQGAbQ9yzNdv",
+          "mode": "list",
+          "cachedResultName": "Dashborad",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4/tbl6vTQGAbQ9yzNdv"
+        },
+        "filterByFormula": "{KPI}=\"Tasa de aprobación\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        336,
+        -192
+      ],
+      "id": "a91914f5-1cb7-469b-96a1-c150cc0cd064",
+      "name": "Airtable — Buscar KPI Tasa",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "91KRqTxZuSzjk04e",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "app0pjup2fouAxCF4",
+          "mode": "list",
+          "cachedResultName": "Gestión Consultas Jurídicas",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl6vTQGAbQ9yzNdv",
+          "mode": "list",
+          "cachedResultName": "Dashborad",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4/tbl6vTQGAbQ9yzNdv"
+        },
+        "filterByFormula": "{KPI}=\"Volumen de salida\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        768,
+        -192
+      ],
+      "id": "badffdc4-38b3-4386-9521-42fd83e130cb",
+      "name": "Airtable — Buscar Volumen",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "91KRqTxZuSzjk04e",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        64,
+        48
+      ],
+      "id": "ab2adc76-5161-4562-8460-2ab5d3a38354",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "app0pjup2fouAxCF4",
+          "mode": "list",
+          "cachedResultName": "Gestión Consultas Jurídicas",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl6vTQGAbQ9yzNdv",
+          "mode": "list",
+          "cachedResultName": "Dashborad",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4/tbl6vTQGAbQ9yzNdv"
+        },
+        "filterByFormula": "{KPI}=\"Tasa de error\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        512,
+        48
+      ],
+      "id": "4616544a-5474-40ca-8344-29c3decedcbc",
+      "name": "Airtable — Buscar KPI Error",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "91KRqTxZuSzjk04e",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "app0pjup2fouAxCF4",
+          "mode": "list",
+          "cachedResultName": "Gestión Consultas Jurídicas",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl6vTQGAbQ9yzNdv",
+          "mode": "list",
+          "cachedResultName": "Dashborad",
+          "cachedResultUrl": "https://airtable.com/app0pjup2fouAxCF4/tbl6vTQGAbQ9yzNdv"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "KPI": "={{ $json.fields.KPI }}",
+            "VALOR": "={{ $('Calculos KPI Errores').item.json.tasa_error }} %"
+          },
+          "matchingColumns": [
+            "KPI"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "KPI",
+              "displayName": "KPI",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "VALOR",
+              "displayName": "VALOR",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        752,
+        48
+      ],
+      "id": "453820ab-03e4-4e9a-8a20-44aa0783f030",
+      "name": "Airtable — Actualizar KPI Error",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "91KRqTxZuSzjk04e",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Traer Consultas",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Traer Ejecuciones",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Traer Errores",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Traer Consultas": {
+      "main": [
+        [
+          {
+            "node": "Calculos KPI Tasa y Volumen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Traer Errores": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Traer Ejecuciones": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculos KPI Errores": {
+      "main": [
+        [
+          {
+            "node": "Airtable — Buscar KPI Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable — Actualizar KPI Tasa": {
+      "main": [
+        [
+          {
+            "node": "Airtable — Buscar Volumen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculos KPI Tasa y Volumen": {
+      "main": [
+        [
+          {
+            "node": "Airtable — Buscar KPI Tasa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable — Buscar KPI Tasa": {
+      "main": [
+        [
+          {
+            "node": "Airtable — Actualizar KPI Tasa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable — Buscar Volumen": {
+      "main": [
+        [
+          {
+            "node": "Airtable — Actualizar Volumen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Calculos KPI Errores",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable — Buscar KPI Error": {
+      "main": [
+        [
+          {
+            "node": "Airtable — Actualizar KPI Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "3f212eec-484e-48e8-9a59-ead38eb08379",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e46c9c260ae4029fed357a674b1641330f5735476ef7b15236c1dc434063dbb0"
+  },
+  "nodeGroups": [],
+  "id": "TlZAvbYWXzbcFi0V",
+  "tags": []
+}
